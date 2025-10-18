@@ -1,21 +1,40 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { login } from '../utils/api';
 import '../styles/Login.css';
 
-const Login = () => {
+const Login = ({ setUser }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError('');
+    setLoading(true);
     console.log('Request Body:', { email, password });
+
     try {
-      await login(email, password);
-      window.location.href = '/dashboard';
+      const response = await login(email, password);
+      console.log('Login response:', response.data);
+      
+      // ✅ Store the token
+      if (response.data.token) {
+        localStorage.setItem('token', response.data.token);
+      }
+      
+      // ✅ Update user state
+      setUser(response.data.user);
+      
+      // ✅ Navigate using React Router instead of window.location
+      navigate('/dashboard');
     } catch (err) {
       setError(err.response?.data?.message || 'Login failed');
       console.error('Error:', err.response?.data);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -33,6 +52,7 @@ const Login = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
+                disabled={loading}
               />
             </div>
             <div>
@@ -42,9 +62,12 @@ const Login = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
+                disabled={loading}
               />
             </div>
-            <button type="submit">Login</button>
+            <button type="submit" disabled={loading}>
+              {loading ? 'Logging in...' : 'Login'}
+            </button>
           </form>
         </div>
       </div>
