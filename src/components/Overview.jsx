@@ -1,26 +1,41 @@
 import { useEffect, useState } from 'react';
 import { getStats, getRecentActivity } from '../utils/api';
 import '../styles/Tables.css';
+import { useNavigate } from 'react-router-dom';
 
 const Overview = () => {
   const [stats, setStats] = useState({});
   const [activities, setActivities] = useState([]);
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        const token = localStorage.getItem('token');
+        if (!token) {
+          setError('Please log in to view this page');
+          navigate('/login');
+          return;
+        }
+
         const statsRes = await getStats();
         setStats(statsRes.data);
         const activityRes = await getRecentActivity();
         setActivities(activityRes.data);
       } catch (error) {
         console.error('Error fetching overview data:', error);
-        setError(error.response?.data?.message || 'Failed to load overview data');
+        if (error.response?.status === 401) {
+          setError('Session expired. Please log in again.');
+          localStorage.removeItem('token');
+          navigate('/login');
+        } else {
+          setError(error.response?.data?.message || 'Failed to load overview data');
+        }
       }
     };
     fetchData();
-  }, []);
+  }, [navigate]);
 
   return (
     <div className="table-container">

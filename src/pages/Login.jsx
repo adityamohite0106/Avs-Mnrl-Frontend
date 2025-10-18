@@ -9,34 +9,33 @@ const Login = ({ setUser }) => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setError('');
+  setLoading(true);
+  console.log('Request Body:', { email, password });
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError('');
-    setLoading(true);
-    console.log('Request Body:', { email, password });
+  try {
+    const response = await login(email, password);
+    console.log('Login response:', response.data);
 
-    try {
-      const response = await login(email, password);
-      console.log('Login response:', response.data);
-      
-      // ✅ Store the token
-      if (response.data.token) {
-        localStorage.setItem('token', response.data.token);
-      }
-      
-      // ✅ Update user state
-      setUser(response.data.user);
-      
-      // ✅ Navigate using React Router instead of window.location
-      navigate('/dashboard');
-    } catch (err) {
-      setError(err.response?.data?.message || 'Login failed');
-      console.error('Error:', err.response?.data);
-    } finally {
-      setLoading(false);
+    // Store the token
+    if (response.data.token) {
+      localStorage.setItem('token', response.data.token);
+      console.log('Token stored in localStorage:', response.data.token); // Add this
+    } else {
+      console.error('No token in login response');
     }
-  };
+
+    setUser(response.data.user);
+    navigate('/dashboard');
+  } catch (err) {
+    setError(err.response?.data?.message || 'Login failed');
+    console.error('Error:', err.response?.data);
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div className="login-wrapper">

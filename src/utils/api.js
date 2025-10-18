@@ -5,15 +5,18 @@ const api = axios.create({
   withCredentials: true,
 });
 
-// Add interceptor to include Authorization header
-api.interceptors.request.use((config) => {
-  const token = localStorage.getItem('token');
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
+// In api.js
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      console.error('Unauthorized, redirecting to login...');
+      localStorage.removeItem('token');
+      window.location.href = '/login'; // Or use navigate('/login') in a component
+    }
+    return Promise.reject(error);
   }
-  return config;
-}, (error) => Promise.reject(error));
-
+);
 export const uploadBankData = (formData) =>
   api.post('/upload/bank-data', formData, {
     headers: { 'Content-Type': 'multipart/form-data' },
