@@ -1,0 +1,106 @@
+/* Sidebar.css */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  --primary-color: #1e40af; /* Professional blue */
+  --secondary-color: #3b82f6;
+  --sidebar-bg: #ffffff;
+  --text-color: #1f2937;
+  --border-color: #e5e7eb;
+  --hover-bg: #eff6ff;
+  --active-bg: #dbeafe;
+  --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme='dark'] {
+  --primary-color: #60a5fa;
+  --secondary-color: #93c5fd;
+  --sidebar-bg: #111827;
+  --text-color: #e5e7eb;
+  --border-color: #374151;
+  --hover-bg: #374151;
+  --active-bg: #1e40af;
+}
+
+/* Sidebar Container */
+.sidebar {
+  width: 250px;
+  background-color: var(--sidebar-bg);
+  padding: 1.5rem;
+  border-right: 1px solid var(--border-color);
+  height: calc(100vh - 64px); /* Adjust for navbar height */
+  position: sticky;
+  top: 64px;
+  font-family: 'Inter', sans-serif;
+  box-shadow: var(--shadow);
+}
+
+/* Sidebar Header */
+.sidebar h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-color);
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+/* Menu List */
+.sidebar ul {
+  list-style: none;
+}
+
+/* Menu Items */
+.sidebar li {
+  padding: 0.75rem 1rem;
+  margin: 0.5rem 0;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-color);
+  transition: all 0.3s ease;
+}
+
+/* Hover and Active States */
+.sidebar li:hover {
+  background-color: var(--hover-bg);
+  color: var(--primary-color);
+}
+
+.sidebar li.active {
+  background-color: var(--active-bg);
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 200px;
+  }
+
+  .sidebar h2 {
+    font-size: 1.125rem;
+  }
+
+  .sidebar li {
+    font-size: 0.8125rem;
+    padding: 0.5rem 0.75rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: static;
+    border-right: none;
+    border-bottom: 1px solid var(--border-color);
+    padding: 1rem;
+  }
+
+  .sidebar h2 {
+    font-size: 1rem;
+  }
+}
