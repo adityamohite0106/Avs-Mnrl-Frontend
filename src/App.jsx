@@ -31,7 +31,6 @@ function App() {
 
   useEffect(() => {
     const fetchUser = async () => {
-      // ✅ Check if token exists before making API call
       const token = localStorage.getItem('token');
       
       if (!token) {
@@ -44,7 +43,6 @@ function App() {
         setUser(res.data.user);
       } catch (error) {
         console.error('Error fetching user:', error);
-        // ✅ Clear invalid token
         localStorage.removeItem('token');
         setUser(null);
       } finally {
@@ -74,10 +72,10 @@ function App() {
         <Routes>
           <Route
             path="/login"
-            element={user ? <Navigate to="/" /> : <Login setUser={setUser} />}
+            element={user ? <Navigate to="/dashboard" /> : <Login setUser={setUser} />}
           />
           <Route
-            path="/"
+            path="/dashboard"
             element={
               user ? (
                 user.role === 'admin' ? (
@@ -94,7 +92,8 @@ function App() {
             path="/bank-records/:uploadId"
             element={user ? <BankRecords /> : <Navigate to="/login" />}
           />
-          <Route path="*" element={<Navigate to="/" />} />
+          <Route path="/" element={<Navigate to="/dashboard" />} />
+          <Route path="*" element={<Navigate to="/dashboard" />} />
         </Routes>
       </ErrorBoundary>
     </BrowserRouter>

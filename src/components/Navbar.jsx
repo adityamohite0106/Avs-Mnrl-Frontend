@@ -13,11 +13,13 @@ const Navbar = ({ user, setUser }) => {
   const handleLogout = async () => {
     try {
       await logout();
-      setUser(null);
-      navigate('/login');
     } catch (error) {
       console.error('Logout error:', error);
-      alert('Failed to logout. Please try again.');
+    } finally {
+      // ✅ Always clear token and redirect, even if API call fails
+      localStorage.removeItem('token');
+      setUser(null);
+      navigate('/login');
     }
   };
 
