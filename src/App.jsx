@@ -31,11 +31,21 @@ function App() {
 
   useEffect(() => {
     const fetchUser = async () => {
+      // ✅ Check if token exists before making API call
+      const token = localStorage.getItem('token');
+      
+      if (!token) {
+        setLoading(false);
+        return;
+      }
+
       try {
         const res = await getMe();
         setUser(res.data.user);
       } catch (error) {
         console.error('Error fetching user:', error);
+        // ✅ Clear invalid token
+        localStorage.removeItem('token');
         setUser(null);
       } finally {
         setLoading(false);
@@ -45,7 +55,17 @@ function App() {
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div style={{ 
+        display: 'flex', 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        height: '100vh',
+        fontSize: '18px'
+      }}>
+        Loading...
+      </div>
+    );
   }
 
   return (
