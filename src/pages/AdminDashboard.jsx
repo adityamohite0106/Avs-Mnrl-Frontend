@@ -14,9 +14,12 @@ const AdminDashboard = ({ user, setUser }) => {
   const [activeTab, setActiveTab] = useState('overview');
 
   const renderContent = () => {
+    if (!user) {
+      return <div>Please log in to view this page</div>;
+    }
     switch (activeTab) {
       case 'overview':
-        return <Overview />;
+        return <Overview user={user} />;
       case 'bank-list':
         return <BankList />;
       case 'fraud-list':
@@ -28,7 +31,7 @@ const AdminDashboard = ({ user, setUser }) => {
       case 'spam-list':
         return <SpamList />;
       default:
-        return <Overview />;
+        return <Overview user={user} />;
     }
   };
 
@@ -36,7 +39,7 @@ const AdminDashboard = ({ user, setUser }) => {
     <div className="dashboard">
       <Navbar user={user} setUser={setUser} />
       <div className="dashboard-content">
-        <Sidebar setActiveTab={setActiveTab} role={user.role} activeTab={activeTab} />
+        <Sidebar setActiveTab={setActiveTab} role={user?.role} activeTab={activeTab} />
         <div className="main-content">
           <UploadModal />
           {renderContent()}

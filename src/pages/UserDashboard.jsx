@@ -10,6 +10,9 @@ const UserDashboard = ({ user, setUser }) => {
   const [activeTab, setActiveTab] = useState('suspected-list');
 
   const renderContent = () => {
+    if (!user) {
+      return <div>Please log in to view this page</div>;
+    }
     switch (activeTab) {
       case 'suspected-list':
         return <SuspectedList />;
@@ -26,7 +29,7 @@ const UserDashboard = ({ user, setUser }) => {
     <div className="dashboard">
       <Navbar user={user} setUser={setUser} />
       <div className="dashboard-content">
-        <Sidebar setActiveTab={setActiveTab} role={user.role} activeTab={activeTab} />
+        <Sidebar setActiveTab={setActiveTab} role={user?.role} activeTab={activeTab} />
         <div className="main-content">{renderContent()}</div>
       </div>
     </div>
