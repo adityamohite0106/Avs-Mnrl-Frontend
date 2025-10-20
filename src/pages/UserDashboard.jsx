@@ -28,9 +28,9 @@ const UserDashboard = ({ user, setUser }) => {
   return (
     <div className="dashboard">
       <Navbar user={user} setUser={setUser} />
-      <div className="dashboard-content">
-        <Sidebar setActiveTab={setActiveTab} role={user?.role} activeTab={activeTab} />
-        <div className="main-content">{renderContent()}</div>
+      <Sidebar setActiveTab={setActiveTab} role={user?.role} activeTab={activeTab} />
+      <div className="main-content">
+        {renderContent()}
       </div>
     </div>
   );

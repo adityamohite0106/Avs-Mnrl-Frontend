@@ -1,5 +1,5 @@
-import '../styles/Sidebar.css';
-
+// import '../styles/Sidebar.css';
+import '../styles/Dashboard.css';
 const Sidebar = ({ setActiveTab, role, activeTab }) => {
   const menuItems = role === 'admin'
     ? [

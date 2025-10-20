@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getStats, getRecentActivity } from '../utils/api';
+import UploadModal from './UploadModal';
 import '../styles/Tables.css';
 import { useNavigate } from 'react-router-dom';
 
@@ -46,47 +47,71 @@ const Overview = ({ user }) => {
   }, [navigate, user]);
 
   return (
-    <div className="table-container">
-      <h2>Dashboard Overview</h2>
-      {error && <p className="error">{error}</p>}
-      <div className="stats">
-        <div>Total Records: {stats.totalRecords || 0}</div>
-        <div>Fraud: {stats.fraudCount || 0}</div>
-        <div>Suspected: {stats.suspectedCount || 0}</div>
-        <div>Reported: {stats.reportedCount || 0}</div>
-        <div>Spam: {stats.spamCount || 0}</div>
-      </div>
-      {user?.role === 'admin' && (
-        <>
-          <h3>Recent Activity</h3>
-          <table className="table">
-            <thead>
-              <tr>
-                <th>User</th>
-                <th>Action</th>
-                <th>Details</th>
-                <th>Time</th>
-              </tr>
-            </thead>
-            <tbody>
-              {activities.length > 0 ? (
-                activities.map((activity) => (
-                  <tr key={activity._id}>
-                    <td>{activity.userId?.email || 'N/A'}</td>
-                    <td>{activity.action}</td>
-                    <td>{activity.details}</td>
-                    <td>{new Date(activity.createdAt).toLocaleString()}</td>
-                  </tr>
-                ))
-              ) : (
+    <div className="overview-container">
+      {/* Upload Modal - Only shown in Overview for admins */}
+      {user?.role === 'admin' && <UploadModal />}
+      
+      <div className="table-container">
+        <h2>Dashboard Overview</h2>
+        {error && <p className="error">{error}</p>}
+        
+        {/* Statistics Cards */}
+        <div className="stats">
+          <div className="stat-card">
+            <span className="stat-label">Total Records</span>
+            <span className="stat-value">{stats.totalRecords || 0}</span>
+          </div>
+          <div className="stat-card">
+            <span className="stat-label">Fraud</span>
+            <span className="stat-value">{stats.fraudCount || 0}</span>
+          </div>
+          <div className="stat-card">
+            <span className="stat-label">Suspected</span>
+            <span className="stat-value">{stats.suspectedCount || 0}</span>
+          </div>
+          <div className="stat-card">
+            <span className="stat-label">Reported</span>
+            <span className="stat-value">{stats.reportedCount || 0}</span>
+          </div>
+          <div className="stat-card">
+            <span className="stat-label">Spam</span>
+            <span className="stat-value">{stats.spamCount || 0}</span>
+          </div>
+        </div>
+        
+        {/* Recent Activity Section */}
+        {user?.role === 'admin' && (
+          <div className="activity-section">
+            <h3>Recent Activity</h3>
+            <table className="table">
+              <thead>
                 <tr>
-                  <td colSpan="4">No recent activity available</td>
+                  <th>User</th>
+                  <th>Action</th>
+                  <th>Details</th>
+                  <th>Time</th>
                 </tr>
-              )}
-            </tbody>
-          </table>
-        </>
-      )}
+              </thead>
+              <tbody>
+                {activities.length > 0 ? (
+                  activities.map((activity) => (
+                    <tr key={activity._id}>
+                      <td>{activity.userId?.email || 'N/A'}</td>
+                      <td>{activity.action}</td>
+                      <td>{activity.details}</td>
+                      <td>{new Date(activity.createdAt).toLocaleString()}</td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="4">No recent activity available</td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

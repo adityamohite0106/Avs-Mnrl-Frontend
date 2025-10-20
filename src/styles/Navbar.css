@@ -5,3 +5,72 @@
   font-weight: bold;
 }
 
+/* ============================================
+   NAVBAR LOGO STYLES
+   ============================================ */
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.navbar-logo {
+  height: 40px;
+  width: auto;
+  object-fit: contain;
+  transition: transform var(--transition-base);
+}
+
+.navbar-logo:hover {
+  transform: scale(1.05);
+}
+
+.navbar-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--primary-600), var(--primary-400));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.02em;
+}
+
+[data-theme='dark'] .navbar-title {
+  background: linear-gradient(135deg, var(--primary-400), var(--primary-200));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .navbar-logo {
+    height: 32px;
+  }
+  
+  .navbar-title {
+    font-size: 1.25rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .navbar-logo {
+    height: 28px;
+  }
+  
+  .navbar-title {
+    font-size: 1.125rem;
+  }
+}
+
+/* Optional: Hide title text on very small screens */
+@media (max-width: 480px) {
+  .navbar-title {
+    display: none;
+  }
+  
+  .navbar-brand {
+    gap: 0;
+  }
+}

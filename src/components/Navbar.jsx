@@ -31,12 +31,15 @@ const Navbar = ({ user, setUser }) => {
 
   return (
     <nav className="navbar">
-      <div className="navbar-brand">Dashboard</div>
-      <div className="navbar-actions" style={{ display: 'flex', alignItems: 'center',  gap: '10px' }}>
-        <button onClick={toggleTheme} className="theme-toggle" aria-label="Toggle theme" style={{ background: 'none', border: 'none', cursor: 'pointer' }}>
+      <div className="navbar-brand">
+        <img src="/avs_logo.png" alt="AVS Logo" className="navbar-logo" />
+
+      </div>
+      <div className="navbar-actions">
+        <button onClick={toggleTheme} className="theme-toggle" aria-label="Toggle theme">
           {theme === 'light' ? (
             // Moon icon for dark mode
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{color: "black"}}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
             </svg>
           ) : (

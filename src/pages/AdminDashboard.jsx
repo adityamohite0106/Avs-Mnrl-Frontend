@@ -6,7 +6,6 @@ import FraudList from '../components/FraudList';
 import SuspectedList from '../components/SuspectedList';
 import ReportedList from '../components/ReportedList';
 import SpamList from '../components/SpamList';
-import UploadModal from '../components/UploadModal';
 import { useState } from 'react';
 import '../styles/Dashboard.css';
 
@@ -38,12 +37,9 @@ const AdminDashboard = ({ user, setUser }) => {
   return (
     <div className="dashboard">
       <Navbar user={user} setUser={setUser} />
-      <div className="dashboard-content">
-        <Sidebar setActiveTab={setActiveTab} role={user?.role} activeTab={activeTab} />
-        <div className="main-content">
-          <UploadModal />
-          {renderContent()}
-        </div>
+      <Sidebar setActiveTab={setActiveTab} role={user?.role} activeTab={activeTab} />
+      <div className="main-content">
+        {renderContent()}
       </div>
     </div>
   );
