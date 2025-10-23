@@ -1,3 +1,4 @@
+// api.js
 import axios from 'axios';
 
 const api = axios.create({
@@ -44,8 +45,7 @@ export const getSuspectedList = () => api.get('/records/suspected-list');
 export const getReportedList = () => api.get('/records/reported-list');
 export const getSpamList = () => api.get('/records/spam-list');
 export const getStats = () => api.get('/stats');
-// export const getRecentActivity = () => api.get('/recent-activity'); // Verify this path
-export const getRecentActivity = () => api.get('/stats/recent-activity'); // Changed to /stats/recent-activity
+export const getRecentActivity = () => api.get('/stats/recent-activity');
 export const login = (email, password) =>
   api.post('/auth/login', { email, password });
 export const logout = () => api.post('/auth/logout');

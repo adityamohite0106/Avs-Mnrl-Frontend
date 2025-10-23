@@ -27,7 +27,7 @@
   border-radius: 0.5rem;
   box-shadow: var(--shadow);
   max-width: 500px;
-  /* margin: 1rem auto; */
+  margin: 1rem auto;
   font-family: 'Inter', sans-serif;
 }
 

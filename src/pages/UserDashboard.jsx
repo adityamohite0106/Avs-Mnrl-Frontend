@@ -3,11 +3,15 @@ import Sidebar from '../components/Sidebar';
 import SuspectedList from '../components/SuspectedList';
 import ReportedList from '../components/ReportedList';
 import SpamList from '../components/SpamList';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import '../styles/Dashboard.css';
 
 const UserDashboard = ({ user, setUser }) => {
   const [activeTab, setActiveTab] = useState('suspected-list');
+
+  useEffect(() => {
+    console.log('UserDashboard user:', user, 'activeTab:', activeTab);
+  }, [user, activeTab]);
 
   const renderContent = () => {
     if (!user) {
@@ -15,13 +19,13 @@ const UserDashboard = ({ user, setUser }) => {
     }
     switch (activeTab) {
       case 'suspected-list':
-        return <SuspectedList />;
+        return <SuspectedList user={user} />; // pass user in case child needs it
       case 'reported-list':
-        return <ReportedList />;
+        return <ReportedList user={user} />;
       case 'spam-list':
-        return <SpamList />;
+        return <SpamList user={user} />;
       default:
-        return <SuspectedList />;
+        return <SuspectedList user={user} />;
     }
   };
 
@@ -30,6 +34,7 @@ const UserDashboard = ({ user, setUser }) => {
       <Navbar user={user} setUser={setUser} />
       <Sidebar setActiveTab={setActiveTab} role={user?.role} activeTab={activeTab} />
       <div className="main-content">
+        {/* debug: remove this once you confirm values */}
         {renderContent()}
       </div>
     </div>

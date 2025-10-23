@@ -5,7 +5,7 @@ import Login from './pages/Login';
 import AdminDashboard from './pages/AdminDashboard';
 import UserDashboard from './pages/UserDashboard';
 import BankRecords from './components/BankRecords';
-
+import AnimatedLoader from './pages/AnimatedLoader';
 class ErrorBoundary extends React.Component {
   state = { hasError: false };
 
@@ -52,19 +52,9 @@ function App() {
     fetchUser();
   }, []);
 
-  if (loading) {
-    return (
-      <div style={{ 
-        display: 'flex', 
-        justifyContent: 'center', 
-        alignItems: 'center', 
-        height: '100vh',
-        fontSize: '18px'
-      }}>
-        Loading...
-      </div>
-    );
-  }
+ if (loading) {
+  return <AnimatedLoader />;
+}
 
   return (
     <BrowserRouter>
