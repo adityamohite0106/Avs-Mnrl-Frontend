@@ -1,25 +1,35 @@
-// components/FraudList.jsx (update SuspectedList, ReportedList, SpamList similarly)
+// components/FraudList.jsx
 import { useEffect, useState } from 'react';
 import { getFraudList } from '../utils/api';
 import '../styles/Tables.css';
 
-const FraudList = () => {
+const FraudList = ({ user }) => {
   const [records, setRecords] = useState([]);
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    if (!user) return;
     const fetchData = async () => {
+      setLoading(true);
+      setError('');
       try {
+        console.log('Fetching fraud list for user:', user);
         const res = await getFraudList();
         console.log('Fraud list response:', res.data);
-        setRecords(res.data);
-      } catch (error) {
-        console.error('Error fetching fraud list:', error.response?.data, error.message);
-        setError(error.response?.data?.message || 'Failed to load fraud list');
+        setRecords(Array.isArray(res.data) ? res.data : []);
+      } catch (err) {
+        console.error('Error fetching fraud list:', err.response?.data, err.message);
+        setError(err.response?.data?.message || 'Failed to load fraud list');
+      } finally {
+        setLoading(false);
       }
     };
     fetchData();
-  }, []);
+  }, [user]);
+
+  if (!user) return <div>Please log in to view this page</div>;
+  if (loading) return <div>Loading fraud matches...</div>;
 
   return (
     <div className="table-container">
@@ -38,11 +48,11 @@ const FraudList = () => {
         <tbody>
           {records.length === 0 && !error && <tr><td colSpan="5">No fraud records found</td></tr>}
           {records.map((record) => (
-            <tr key={record._id}>
+            <tr key={record._id || record.id}>
               <td>{record.mobileNumber}</td>
               <td>{record.customerNo}</td>
-              <td>{new Date(record.date).toLocaleDateString()}</td>
-              <td>{new Date(record.effectDate).toLocaleDateString()}</td>
+              <td>{record.date ? new Date(record.date).toLocaleDateString() : 'N/A'}</td>
+              <td>{record.effectDate ? new Date(record.effectDate).toLocaleDateString() : 'N/A'}</td>
               <td>{record.uploadId?.filename || 'N/A'}</td>
             </tr>
           ))}

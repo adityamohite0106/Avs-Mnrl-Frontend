@@ -20,15 +20,15 @@ const AdminDashboard = ({ user, setUser }) => {
       case 'overview':
         return <Overview user={user} />;
       case 'bank-list':
-        return <BankList />;
+        return <BankList user={user} />;
       case 'fraud-list':
-        return <FraudList />;
+        return <FraudList user={user} />;
       case 'suspected-list':
-        return <SuspectedList />;
+        return <SuspectedList user={user} />;
       case 'reported-list':
-        return <ReportedList />;
+        return <ReportedList user={user} />;
       case 'spam-list':
-        return <SpamList />;
+        return <SpamList user={user} />;
       default:
         return <Overview user={user} />;
     }
