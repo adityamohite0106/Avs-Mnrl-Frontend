@@ -119,10 +119,204 @@
   }
 }
 
+/* ============================================
+   ENHANCED TABLE STYLES
+   ============================================ */
+
+.table-wrapper {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: var(--spacing-lg);
+}
+
+.no-data {
+  text-align: center;
+  padding: var(--spacing-2xl) !important;
+}
+
+.no-data-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-md);
+  color: var(--text-tertiary);
+}
+
+.no-data-content svg {
+  color: var(--text-tertiary);
+  opacity: 0.5;
+}
+
+.no-data-content p {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.no-data-content span {
+  font-size: 0.875rem;
+  color: var(--text-tertiary);
+}
+
+.mobile-number {
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  font-weight: 600;
+  color: var(--primary);
+  background-color: var(--primary-50);
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.8125rem;
+}
+
+[data-theme='dark'] .mobile-number {
+  background-color: rgba(59, 130, 246, 0.15);
+}
+
+.customer-no {
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  font-weight: 500;
+  color: var(--text-primary);
+  background-color: var(--gray-100);
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.8125rem;
+}
+
+[data-theme='dark'] .customer-no {
+  background-color: var(--gray-700);
+}
+
+.date-value {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.upload-filename {
+  font-size: 0.875rem;
+  color: var(--text-primary);
+  font-weight: 500;
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: inline-block;
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-xl);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.status-suspected {
+  background-color: var(--warning-50);
+  color: var(--warning-500);
+}
+
+[data-theme='dark'] .status-suspected {
+  background-color: rgba(245, 158, 11, 0.15);
+  color: var(--warning-500);
+}
+
+.status-reported {
+  background-color: var(--primary-50);
+  color: var(--primary-600);
+}
+
+[data-theme='dark'] .status-reported {
+  background-color: rgba(59, 130, 246, 0.15);
+  color: var(--primary-400);
+}
+
+.status-fraud {
+  background-color: var(--error-50);
+  color: var(--error-600);
+}
+
+[data-theme='dark'] .status-fraud {
+  background-color: rgba(239, 68, 68, 0.15);
+  color: var(--error-500);
+}
+
+.status-spam {
+  background-color: var(--gray-100);
+  color: var(--gray-600);
+}
+
+[data-theme='dark'] .status-spam {
+  background-color: var(--gray-700);
+  color: var(--gray-400);
+}
+
+.status-unknown {
+  background-color: var(--gray-100);
+  color: var(--gray-500);
+}
+
+[data-theme='dark'] .status-unknown {
+  background-color: var(--gray-700);
+  color: var(--gray-500);
+}
+
+/* Enhanced table hover effects */
+.table tbody tr {
+  transition: all var(--transition-fast);
+}
+
+.table tbody tr:hover {
+  background-color: var(--surface-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme='dark'] .table tbody tr:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Table cell enhancements */
+.table td {
+  vertical-align: middle;
+  position: relative;
+}
+
+.table td:first-child {
+  border-left: 3px solid transparent;
+  transition: border-left-color var(--transition-fast);
+}
+
+.table tbody tr:hover td:first-child {
+  border-left-color: var(--primary);
+}
+
 @media (max-width: 640px) {
   .table {
     display: block;
     overflow-x: auto;
     white-space: nowrap;
+  }
+  
+  .mobile-number,
+  .customer-no {
+    font-size: 0.75rem;
+    padding: 0.125rem 0.375rem;
+  }
+  
+  .upload-filename {
+    max-width: 150px;
+  }
+  
+  .status-badge {
+    font-size: 0.6875rem;
+    padding: 0.125rem 0.5rem;
   }
 }

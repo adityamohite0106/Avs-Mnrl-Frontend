@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getStats, getRecentActivity } from '../utils/api';
 import UploadModal from './UploadModal';
+import LoadingSkeleton from './LoadingSkeleton';
 import '../styles/Tables.css';
 import { useNavigate } from 'react-router-dom';
 
@@ -8,10 +9,13 @@ const Overview = ({ user }) => {
   const [stats, setStats] = useState({});
   const [activities, setActivities] = useState([]);
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
+      setError('');
       try {
         const token = localStorage.getItem('token');
         if (!token || !user) {
@@ -41,6 +45,8 @@ const Overview = ({ user }) => {
         } else {
           setError(error.response?.data?.message || 'Failed to load overview data');
         }
+      } finally {
+        setLoading(false);
       }
     };
     fetchData();
@@ -56,28 +62,32 @@ const Overview = ({ user }) => {
         {error && <p className="error">{error}</p>}
         
         {/* Statistics Cards */}
-        <div className="stats">
-          <div className="stat-card">
-            <span className="stat-label">Total Records</span>
-            <span className="stat-value">{stats.totalRecords || 0}</span>
+        {loading ? (
+          <LoadingSkeleton type="stats" rows={1} columns={5} />
+        ) : (
+          <div className="stats">
+            <div className="stat-card">
+              <span className="stat-label">Total Records</span>
+              <span className="stat-value">{stats.totalRecords || 0}</span>
+            </div>
+            <div className="stat-card">
+              <span className="stat-label">Fraud</span>
+              <span className="stat-value">{stats.fraudCount || 0}</span>
+            </div>
+            <div className="stat-card">
+              <span className="stat-label">Suspected</span>
+              <span className="stat-value">{stats.suspectedCount || 0}</span>
+            </div>
+            <div className="stat-card">
+              <span className="stat-label">Reported</span>
+              <span className="stat-value">{stats.reportedCount || 0}</span>
+            </div>
+            <div className="stat-card">
+              <span className="stat-label">Spam</span>
+              <span className="stat-value">{stats.spamCount || 0}</span>
+            </div>
           </div>
-          <div className="stat-card">
-            <span className="stat-label">Fraud</span>
-            <span className="stat-value">{stats.fraudCount || 0}</span>
-          </div>
-          <div className="stat-card">
-            <span className="stat-label">Suspected</span>
-            <span className="stat-value">{stats.suspectedCount || 0}</span>
-          </div>
-          <div className="stat-card">
-            <span className="stat-label">Reported</span>
-            <span className="stat-value">{stats.reportedCount || 0}</span>
-          </div>
-          <div className="stat-card">
-            <span className="stat-label">Spam</span>
-            <span className="stat-value">{stats.spamCount || 0}</span>
-          </div>
-        </div>
+        )}
         
         {/* Recent Activity Section */}
         {user?.role === 'admin' && (
